@@ -47,7 +47,7 @@ import { ModalTrocarSenha } from '@/components/auth/ModalTrocarSenha';
 import { ModalAluno, FormAlunoState } from '@/components/cadastros/ModalAluno';
 import { ModalTurma, FormTurmaState } from '@/components/cadastros/ModalTurma';
 import { AlertaModal } from '@/components/common/AlertaModal';
-import { shuffleArray } from '@/lib/shuffle';
+
 import { MontadorTab } from '@/components/montador/MontadorTab';
 import { ModalQuestao } from '@/components/montador/ModalQuestao';
 import { ImpressaoTab } from '@/components/impressao/ImpressaoTab';
@@ -268,38 +268,6 @@ export default function Home() {
   }, [alunosVisiveis, turmaSelecionadaId]);
 
   const alunoAtual = alunosDaTurmaSelecionada[selectedVersionIdx] || alunosDaTurmaSelecionada[0] || alunosVisiveis[0];
-
-  const questoesEmbaralhadas = useMemo(() => {
-    let lista = JSON.parse(JSON.stringify(questoesSelecionadas)) as Question[];
-
-    if (shuffleQ) {
-      lista = shuffleArray(lista, selectedVersionIdx + 1);
-    }
-
-    if (shuffleAlt) {
-      lista = lista.map((q, qIdx) => {
-        const seedAlt = (selectedVersionIdx + 1) * 10 + (qIdx + 1);
-
-        let alts = q.alternativas ? [...q.alternativas] : [];
-        if (alts.length > 0) {
-          alts = shuffleArray(alts, seedAlt);
-        }
-
-        let opts = q.options ? [...q.options] : [];
-        if (opts.length > 0) {
-          opts = shuffleArray(opts, seedAlt);
-        }
-
-        return {
-          ...q,
-          alternativas: alts.length > 0 ? alts : undefined,
-          options: opts.length > 0 ? opts : undefined
-        };
-      });
-    }
-
-    return lista;
-  }, [questoesSelecionadas, shuffleQ, shuffleAlt, selectedVersionIdx]);
 
   const pontuacaoTotal = useMemo(() => {
     return questionService.calcularPontuacaoTotal(questoesSelecionadas);
@@ -838,7 +806,9 @@ export default function Home() {
             tituloProva={tituloProva}
             turmaSelecionadaId={turmaSelecionadaId}
             withId={withId}
-            questoesEmbaralhadas={questoesEmbaralhadas}
+            questoesSelecionadas={questoesSelecionadas}
+            shuffleQ={shuffleQ}
+            shuffleAlt={shuffleAlt}
             turmas={turmasVisiveis}
             teacherId={session?.id}
             stage={cicloSelecionado === 'TODAS' ? 'N1' : cicloSelecionado}

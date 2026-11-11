@@ -33,3 +33,16 @@
     background: #ffffff;
   }
 }
+
+@media print {
+  .sgp-print-batch, .sgp-student-packet, .sgp-question-booklet { overflow: visible !important; height: auto; }
+  .sgp-student-packet + .sgp-student-packet { break-before: page; page-break-before: always; }
+  .sgp-print-batch:has(.sgp-answer-sheet-back) .sgp-student-packet + .sgp-student-packet { break-before: right; }
+  .sgp-answer-sheet { break-inside: avoid; page-break-inside: avoid; break-after: page; }
+  .sgp-answer-sheet-back { break-before: page; break-after: page; }
+  .sgp-answer-columns { display: grid !important; grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .sgp-answer-columns > :first-child { grid-column: span 5 / span 5; }
+  .sgp-answer-columns > :last-child { grid-column: span 7 / span 7; }
+  .sgp-answer-columns[data-two-columns="true"] { grid-template-columns: 1fr; }
+  .sgp-answer-columns[data-two-columns="true"] > * { grid-column: 1; }
+}

@@ -18,6 +18,7 @@ export function QRCodeWrapper({ value, size = 110 }: QRCodeWrapperProps) {
   if (!mounted) {
     return (
       <div
+        data-qr-pending
         style={{ width: size, height: size }}
         className="bg-slate-100 flex items-center justify-center text-[10px] text-slate-400 font-mono border"
       >
