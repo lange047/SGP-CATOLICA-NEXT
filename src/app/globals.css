@@ -33,3 +33,22 @@
     background: #ffffff;
   }
 }
+
+/* TSK-62: não imprimir controles da interface; preservar folhas A4. */
+@media print {
+  button, nav, aside, [role="navigation"], [data-print-hide="true"] {
+    display: none !important;
+  }
+
+  /* Evita fragmentar imagens e blocos de alternativas entre páginas. */
+  img, svg, figure, tr, li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* O gabarito e o verso duplex devem ocupar páginas distintas. */
+  [data-testid="verso-gabarito-duplex"] {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}

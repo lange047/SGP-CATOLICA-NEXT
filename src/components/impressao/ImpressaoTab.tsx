@@ -886,16 +886,13 @@ export function ImpressaoTab({
         {/* PÁGINA 2: VERSO DO CARTÃO GABARITO (PÁGINA EM BRANCO INTENCIONAL DUPLEX) */}
         {/* ========================================================================= */}
         {modoFrenteVerso && (
-          <div className="hidden print:flex print:flex-col print:justify-center print:items-center print:h-[240mm] print:break-after-page">
-            <div className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-slate-300 text-slate-400 text-xs uppercase p-8 text-center space-y-3 rounded-2xl">
-              <div className="w-12 h-12 rounded-full border-2 border-slate-300 flex items-center justify-center font-bold text-lg">✂️</div>
-              <p className="font-bold text-sm tracking-wide text-slate-600">PÁGINA EM BRANCO INTENCIONAL</p>
-              <p className="text-[11px] font-bold text-slate-400">VERSO DA FOLHA DE RESPOSTAS</p>
-              <p className="text-[10px] text-slate-400 max-w-sm normal-case leading-relaxed">
-                Esta página é mantida em branco para que o estudante possa destacar a folha de respostas e entregá-la ao professor sem rasgar o caderno de questões no verso.
-              </p>
-            </div>
-          </div>
+          // O verso precisa estar realmente vazio na impressão duplex (RF09).
+          // A altura fica abaixo da área útil do A4 com margens de @page.
+          <div
+            aria-hidden="true"
+            data-testid="verso-gabarito-duplex"
+            className="hidden print:block print:h-[260mm] print:break-after-page print:bg-white"
+          />
         )}
 
         {/* ========================================================================= */}
